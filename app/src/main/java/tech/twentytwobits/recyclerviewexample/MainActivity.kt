@@ -5,7 +5,8 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
-import android.widget.LinearLayout
+import android.view.View
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -33,7 +34,15 @@ class MainActivity : AppCompatActivity() {
         layoutManager = LinearLayoutManager(this)
 
         // Indicar a la lista el adaptador a utilizar
-        val adapter = AdapterCustom(this, platillos)
+        val adapter = AdapterCustom(this, platillos, object: ClickListener {
+            override fun onClick(view: View, index: Int) {
+                Toast.makeText(applicationContext, platillos[index].nombre, Toast.LENGTH_SHORT).show()
+            }
+        }, object: LongClickListener{
+            override fun LongClickListener(view: View, index: Int) {
+                Log.d("LONGCLICK", platillos[index].nombre)
+            }
+        })
 
         recyclerViewPlatillos.setHasFixedSize(true)
         recyclerViewPlatillos.layoutManager = layoutManager
